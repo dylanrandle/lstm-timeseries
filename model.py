@@ -4,6 +4,8 @@ Build the model
 
 import tensorflow as tf
 from tensorflow.contrib import rnn
+from tensorflow.contrib import learn as tflearn
+from tensorflow.contrib import layers as tflayers
 
 import numpy as np
 
@@ -30,6 +32,9 @@ class Model():
             self.cell = cell = rnn.MultiRNNCell(cells, state_is_tuple=True)
         else:
             self.cell = cell = cells
+
+        
+
 
         
 

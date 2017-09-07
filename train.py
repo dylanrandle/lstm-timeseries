@@ -2,8 +2,11 @@
 Train the model
 '''
 
+import keras
 import tensorflow as tf
 import argparse
+
+from model import Model
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -18,13 +21,13 @@ def main():
     parser.add_argument('--num_layers', type=int, default=1,
                         help='number of layers in the RNN')
     parser.add_argument('--model', type=str, default='lstm',
-                        help='rnn, gru, lstm, or nas')
+                        help='gru or lstm')
     parser.add_argument('--batch_size', type=int, default=1,
                         help='minibatch size')
     parser.add_argument('--seq_length', type=int, default=1,
                         help='RNN sequence length')
-    # parser.add_argument('--num_epochs', type=int, default=50,
-    #                     help='number of epochs')
+    parser.add_argument('--num_epochs', type=int, default=50,
+                        help='number of epochs')
     # parser.add_argument('--save_every', type=int, default=1000,
     #                     help='save frequency')
     # parser.add_argument('--grad_clip', type=float, default=5.,
@@ -49,9 +52,15 @@ def main():
     train(args)
 
 def train(args):
-    ## 1. load data
-    ## 2. load model
-    ## 3. start training session
+    ''' Using Keras '''
+    # model = keras.models.Sequential()
+    # if args.model == 'lstm':
+    #     model.add(keras.layers.recurrent.LSTM(args.rnn_size, input_shape=(args.batch_size, args.seq_length, 1)))
+    # elif args.model == 'gru':
+    #     model.add(keras.layers.recurrent.GRU(args.rnn_size, input_shape=(args.batch_size, args.seq_length, 1)))
+    # model.add(keras.layers.core.Dense(1))
+    # print('Model summary: ')
+    # model.summary()
 
 if __name__ == '__main__':
     main()
