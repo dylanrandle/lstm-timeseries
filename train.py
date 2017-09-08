@@ -1,13 +1,14 @@
 '''
 Train the model
 '''
-
+import os
+import time
 import tensorflow as tf
 import argparse
 import utils
 import numpy as np
 import matplotlib.pyplot as plt
-# from model import Model
+from model import Model
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -23,7 +24,7 @@ def main():
                         help='number of hidden units')
     parser.add_argument('--batch_size', type=int, default=1,
                         help='batch size')
-    parser.add_argument('--learning_rate', type=float, default=0.001,
+    parser.add_argument('--learning_rate', type=float, default=0.01,
                         help='learning rate for optimization')
     parser.add_argument('--num_epochs', type=int, default=1000,
                         help='number of passes through training data')
@@ -32,31 +33,24 @@ def main():
 
 def train(args):
     X_train, X_test, Y_train, Y_test = utils.read_timeseries(args.data_file)
-
-    inputs = tf.placeholder(tf.float32, shape=[None, None, 1])
-    targets = tf.placeholder(tf.float32, shape=[None, 1])
-
-    lstm_cell = tf.contrib.rnn.BasicLSTMCell(args.hidden_dim)
-    batch_size = tf.shape(inputs)[1]
-    initial_state = lstm_cell.zero_state(batch_size, tf.float32)
-    rnn_outputs, rnn_states = tf.nn.dynamic_rnn(lstm_cell, inputs, initial_state=initial_state, time_major=True)
-
-    W = tf.Variable(tf.zeros([args.hidden_dim, 1]))
-    b = tf.Variable(tf.zeros([1]))
-    logits = tf.matmul(rnn_outputs[-1], W) + b
-
-    loss_op = tf.losses.mean_squared_error(targets, logits)
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=args.learning_rate)
-    train_op = optimizer.minimize(loss_op)
-
-    init = tf.global_variables_initializer()
+    num_batches = int(len(X_train)/args.seq_len)
+    model = Model(args)
 
     with tf.Session() as sess:
-        sess.run(init)
+        # tensorboard
+        summaries = tf.summary.merge_all()
+        writer = tf.summary.FileWriter(os.path.join(args.log_dir, time.strftime("%Y-%m-%d-%H-%M-%S")))
+        writer.add_graph(sess.graph)
+        sess.run(tf.global_variables_initializer())
+
         for e in range(args.num_epochs):
-            ## TODO: X_train/Y_train need to properly match inputs/targets dimensions
-            sess.run(train_op, feed_dict={inputs: X_train, targets: Y_train})
-            print('ran a session')
+            print('Epoch %s/%s' % (e+1,args.num_epochs))
+
+            for i in range(num_batches):
+                X_slice = X_train[i*args.seq_len:(i+1)*args.seq_len].reshape((1, args.seq_len, 1))
+                Y_target = Y_train[i+1].reshape((1, 1))
+                summ, train_loss, _ = sess.run([summaries, model.loss_op, model.train_op], feed_dict={model.inputs: X_slice, model.targets: Y_target})
+                writer.add_summary(summ, e*num_batches + i)
 
 if __name__ == '__main__':
     main()
