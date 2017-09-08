@@ -8,7 +8,7 @@ To run Tensorboard: ``` tensorboard --logdir=./logs/ ```
 
 This was made as I was initially learning how to use Tensorflow. 
 
-Future Work:
+Future work:
   * Get more data
   * Implement gradient clipping and exponential learning rate decay
   * Visualize predictions
