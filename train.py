@@ -21,13 +21,13 @@ def main():
     parser.add_argument('--log_dir', type=str, default='logs',
                         help='directory to store tensorboard logs')
     parser.add_argument('--seq_len', type=int, default=50,
-                        help='number of days to look back')
+                        help='length of historical data fed to LSTM')
     parser.add_argument('--hidden_dim', type=int, default=6,
-                        help='number of hidden units')
+                        help='LSTM hidden dimension')
     parser.add_argument('--batch_size', type=int, default=1,
-                        help='batch size')
+                        help='number of batches to execute')
     parser.add_argument('--learning_rate', type=float, default=0.01,
-                        help='learning rate for optimization')
+                        help='learning rate for SGD optimizer')
     parser.add_argument('--num_epochs', type=int, default=100,
                         help='number of passes through training data')
     args = parser.parse_args()
