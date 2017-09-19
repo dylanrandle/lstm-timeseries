@@ -5,9 +5,9 @@ import os
 import time
 import tensorflow as tf
 import argparse
-import utils
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.preprocessing import normalize
 from six.moves import cPickle
 from model import Model
 
@@ -29,13 +29,14 @@ def main():
                         help='number of batches to execute')
     parser.add_argument('--learning_rate', type=float, default=0.01,
                         help='learning rate for SGD optimizer')
-    parser.add_argument('--num_epochs', type=int, default=250,
+    parser.add_argument('--num_epochs', type=int, default=2,
                         help='number of passes through training data')
     args = parser.parse_args()
     train(args)
 
 def train(args):    
-    X, Y = utils.read_timeseries(args.data_file)
+    X = np.asarray(pd.read_csv(args.data_file, usecols=['Adj Close']))
+    # X = normalize(X, norm='max')
     num_iters = len(X) - args.seq_len
 
     if not os.path.isdir(args.save_dir):
@@ -55,11 +56,11 @@ def train(args):
         for e in range(args.num_epochs):
             for b in range(num_iters):
                 x = X[b:b+args.seq_len].reshape((1, args.seq_len, 1))
-                y = Y[b+1].reshape((1, 1))
-                summ, train_loss, train_op = sess.run([summaries, model.loss, model.train_op], feed_dict={model.input: x, model.target: y})
+                y = X[b+args.seq_len].reshape((1, 1))
+                summ, train_loss, train_op, pred = sess.run([summaries, model.loss, model.train_op, model.pred], feed_dict={model.input: x, model.target: y})
                 writer.add_summary(summ, e*num_iters + b)
                 if b % 10 == 0:
-                    print('Epoch: %s/%s | Iteration: %s/%s | Loss: %s' % (e+1, args.num_epochs, b, num_iters, train_loss))
+                    print('Epoch: %s/%s | Iteration: %s/%s | Loss: %s | Pred: %s | True: %s' % (e+1, args.num_epochs, b, num_iters, train_loss, pred, X[b+args.seq_len]))
 
             # checkpoint the model after every epoch
             checkpoint_path = os.path.join(args.save_dir, 'model.ckpt')

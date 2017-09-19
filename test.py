@@ -3,7 +3,6 @@ Calculate and plot predictions on test data
 '''
 import os
 import argparse
-import utils
 import tensorflow as tf
 from six.moves import cPickle
 from model import Model
@@ -18,7 +17,7 @@ def main():
     test(args)
 
 def test(args):
-    X, Y = utils.read_timeseries(args.data_file)
+    X = np.asarray(pd.read_csv(args.data_file, usecols=['Adj Close']))
 
     # load saved args
     with open(os.path.join(args.load_from, 'args.pkl'), 'rb') as f:
@@ -36,7 +35,7 @@ def test(args):
         num_iters = len(X) - saved_args.seq_len
         for b in range(num_iters):
             x = X[b:b+saved_args.seq_len].reshape((1, saved_args.seq_len, 1))
-            y = Y[b+1].reshape((1, 1))
+            y = Y[b+saved_args.seq_len].reshape((1, 1))
             train_loss, pred = sess.run([model.loss, model.pred], feed_dict={model.input: x, model.target: y})
     print(preds)
 
