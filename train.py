@@ -59,8 +59,7 @@ def train(args):
                 y = X[b+args.seq_len].reshape((1, 1))
                 summ, train_loss, train_op, pred = sess.run([summaries, model.loss, model.train_op, model.pred], feed_dict={model.input: x, model.target: y})
                 writer.add_summary(summ, e*num_iters + b)
-                if b % 10 == 0:
-                    print('Epoch: %s/%s | Iteration: %s/%s | Loss: %s | Pred: %s | True: %s' % (e+1, args.num_epochs, b, num_iters, train_loss, pred, X[b+args.seq_len]))
+                print('Epoch: %s/%s | Iteration: %s/%s | Loss: %s | Pred: %s | True: %s' % (e+1, args.num_epochs, b, num_iters, '{:.2f}'.format(round(train_loss,2)), '{:.2f}'.format(round(pred[0][0],2)), '{:.2f}'.format(round(X[b+args.seq_len][0],2))))
 
             # checkpoint the model after every epoch
             checkpoint_path = os.path.join(args.save_dir, 'model.ckpt')
