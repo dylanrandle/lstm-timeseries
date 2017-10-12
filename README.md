@@ -1,8 +1,21 @@
 # LSTM for Timeseries Prediction of TQQQ
 
-Very simple LSTM model to do timeseries prediction. Optimized with SGD over mean-squared error. 
+LSTM model to do timeseries prediction. Optimized with SGD over mean-squared error. 
 
-To run training: ``` python3 train.py ```
+To run training: ``` python3 train.py ``` 
+
+Apply -h flag for help with arguments. 
+
+Available args:
+  * --data_file=
+  * --save_dir=
+  * --save_every=
+  * --log_dir=
+  * --seq_len=
+  * --hidden_dim=
+  * --batch_size=
+  * --learning_rate=
+  * --num_epochs=
 
 To run Tensorboard: ``` tensorboard --logdir=./logs/ ``` 
 
