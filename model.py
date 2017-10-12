@@ -28,4 +28,3 @@ class Model():
         # save loss/pred for tensorboard
         tf.summary.scalar('loss', self.loss)
         tf.summary.scalar('pred', self.pred[0][0])
-

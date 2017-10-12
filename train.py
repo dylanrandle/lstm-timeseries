@@ -36,7 +36,8 @@ def main():
 
 def train(args):    
     X = np.asarray(pd.read_csv(args.data_file, usecols=['Adj Close']))
-    # X = normalize(X, norm='max')
+    max_val = np.amax(X)
+    X = X / max_val
     num_iters = len(X) - args.seq_len
 
     if not os.path.isdir(args.save_dir):
