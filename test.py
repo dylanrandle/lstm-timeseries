@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--test_file', type=str, default='data/sp500_test.csv',
                         help='test data file (as csv)')
-    parser.add_argument('--train_file', type=str, default='data/train.csv',
+    parser.add_argument('--train_file', type=str, default='data/sp500_train.csv',
                         help='training data file (as csv)')
     parser.add_argument('--load_from', type=str, default='save',
                         help='directory to load model and config from')
