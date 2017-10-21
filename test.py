@@ -51,7 +51,8 @@ def test(args):
             actuals.append(actual*norm_factor)
     plt.plot(preds)
     plt.plot(actuals)
-    plt.show()
+    import time
+    plt.savefig('lstm_test_%s.png' % time.time())
 
 if __name__ == '__main__':
     main()
