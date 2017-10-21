@@ -1,8 +1,12 @@
-# LSTM for Timeseries Prediction of TQQQ
+# LSTM for Timeseries Prediction
 
 LSTM model to do timeseries prediction. Optimized with SGD over mean-squared error. 
 
-To run training: ``` python3 train.py ``` 
+Data in ```/data```.
+
+To run training: ``` python3 train.py ```
+
+There are quite a few dependencies, including Tensorflow of course. 
 
 Apply -h flag for help with arguments. 
 
@@ -20,9 +24,3 @@ Available args:
 To run Tensorboard: ``` tensorboard --logdir=./logs/ ``` 
 
 This was made as I was initially learning how to use Tensorflow. TQQQ is a highly volatile leveraged ETF, and thus the predictions are not very good with this simple model. 
-
-Future work:
-  * Implement gradient clipping and exponential learning rate decay
-  * Visualize predictions
-  * Tune hyperparameters
-  * Get more data

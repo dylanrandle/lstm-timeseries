@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--test_file', type=str, default='data/test.csv',
+    parser.add_argument('--test_file', type=str, default='data/sp500_test.csv',
                         help='test data file (as csv)')
     parser.add_argument('--train_file', type=str, default='data/train.csv',
                         help='training data file (as csv)')
@@ -51,8 +51,9 @@ def test(args):
             actuals.append(actual*norm_factor)
     plt.plot(preds)
     plt.plot(actuals)
-    import time
-    plt.savefig('lstm_test_%s.png' % time.time())
+    plt.show()
+    # import time
+    # plt.savefig('lstm_test_%s.png' % time.time())
 
 if __name__ == '__main__':
     main()

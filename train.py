@@ -7,13 +7,12 @@ import tensorflow as tf
 import argparse
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import normalize
 from six.moves import cPickle
 from model import Model
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--data_file', type=str, default='data/train.csv',
+    parser.add_argument('--data_file', type=str, default='data/sp500_train.csv',
                         help='training data file (as csv)')
     parser.add_argument('--save_dir', type=str, default='save',
                         help='directory to store checkpointed models')
@@ -29,7 +28,7 @@ def main():
                         help='number of batches to execute')
     parser.add_argument('--learning_rate', type=float, default=0.01,
                         help='learning rate for SGD optimizer')
-    parser.add_argument('--num_epochs', type=int, default=2,
+    parser.add_argument('--num_epochs', type=int, default=100,
                         help='number of passes through training data')
     args = parser.parse_args()
     train(args)
@@ -60,7 +59,7 @@ def train(args):
                 y = X[b+args.seq_len].reshape((1, 1))
                 summ, train_loss, train_op, pred = sess.run([summaries, model.loss, model.train_op, model.pred], feed_dict={model.input: x, model.target: y})
                 writer.add_summary(summ, e*num_iters + b)
-                print('Epoch: %s/%s | Iteration: %s/%s | Loss: %s | Pred: %s | True: %s' % (e+1, args.num_epochs, b, num_iters, '{:.2f}'.format(round(train_loss,2)), '{:.2f}'.format(round(pred[0][0],2)), '{:.2f}'.format(round(X[b+args.seq_len][0],2))))
+                print('Epoch: %s/%s | Iteration: %s/%s | Loss: %s | Pred: %s | True: %s' % (e+1, args.num_epochs, b+1, num_iters, "{:.8f}".format(train_loss), "{:.4f}".format(pred[0][0],6), "{:.4f}".format(X[b+args.seq_len][0]) ))
 
             # checkpoint the model after every epoch
             checkpoint_path = os.path.join(args.save_dir, 'model.ckpt')
