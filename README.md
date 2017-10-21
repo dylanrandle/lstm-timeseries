@@ -19,7 +19,7 @@ Available args:
 
 To run Tensorboard: ``` tensorboard --logdir=./logs/ ``` 
 
-This was made as I was initially learning how to use Tensorflow. 
+This was made as I was initially learning how to use Tensorflow. TQQQ is a highly volatile leveraged ETF, and thus the predictions are not very good with this simple model. 
 
 Future work:
   * Implement gradient clipping and exponential learning rate decay
