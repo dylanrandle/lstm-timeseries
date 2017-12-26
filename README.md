@@ -1,25 +1,14 @@
 # LSTM for Timeseries Prediction
 
-LSTM model to do timeseries prediction. Optimized with SGD over mean-squared error. 
+Very simple, Vanilla LSTM model to do timeseries prediction. Optimized with SGD over mean-squared error. 
 
-Data in ```/data```.
+Place data in ```/data``` and point to it with command line args.
 
 To run training: ``` python3 train.py ```
 
-There are quite a few dependencies, including Tensorflow of course. 
+Dependencies: tensorflow, numpy, pandas, six, matplotlib.
 
-Apply -h flag for help with arguments. 
-
-Available args:
-  * --data_file=
-  * --save_dir=
-  * --save_every=
-  * --log_dir=
-  * --seq_len=
-  * --hidden_dim=
-  * --batch_size=
-  * --learning_rate=
-  * --num_epochs=
+Apply -h flag to see available args.
 
 To run Tensorboard: ``` tensorboard --logdir=./logs/ ``` 
 
