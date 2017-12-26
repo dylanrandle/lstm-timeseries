@@ -20,12 +20,10 @@ def main():
                         help='save frequency')
     parser.add_argument('--log_dir', type=str, default='logs',
                         help='directory to store tensorboard logs')
-    parser.add_argument('--seq_len', type=int, default=50,
+    parser.add_argument('--seq_len', type=int, default=200,
                         help='length of historical data fed to LSTM')
-    parser.add_argument('--hidden_dim', type=int, default=6,
+    parser.add_argument('--hidden_dim', type=int, default=50,
                         help='LSTM hidden dimension')
-    parser.add_argument('--batch_size', type=int, default=1,
-                        help='number of batches to execute')
     parser.add_argument('--learning_rate', type=float, default=0.01,
                         help='learning rate for SGD optimizer')
     parser.add_argument('--num_epochs', type=int, default=100,

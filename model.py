@@ -6,8 +6,8 @@ import numpy as np
 
 class Model():
     def __init__(self, args):
-        self.input = tf.placeholder('float', [args.batch_size, args.seq_len, 1])
-        self.target = tf.placeholder('float', [args.batch_size, 1])
+        self.input = tf.placeholder('float', [1, args.seq_len, 1])
+        self.target = tf.placeholder('float', [1, 1])
 
         self.weights = tf.Variable(tf.random_normal([args.hidden_dim, 1]))
         self.biases = tf.Variable(tf.random_normal([1]))
